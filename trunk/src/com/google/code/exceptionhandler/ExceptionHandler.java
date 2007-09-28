@@ -68,16 +68,17 @@ public class ExceptionHandler implements Thread.UncaughtExceptionHandler {
             Thread waitThread = new Thread() {
                 public void run() {
                     try {
-                        t.join();
+                        if (t.isAlive()) t.join();
                     } catch (InterruptedException ie) {
                         //don't try to rejoin, just move on
+                    } finally {
+                        latch.countDown(); //second count down - everything is done
                     }
-                    latch.countDown(); //second count down - everything is done
                 }
             };
             
-            waitThread.start();
             latch.countDown(); //we are waiting for thread death
+            waitThread.start();
         }
     }
        
