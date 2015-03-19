@@ -1,0 +1,1 @@
+This tool provides a mechanism for handling exceptions nested deeply inside your code, outside or inside your area of control flow.
